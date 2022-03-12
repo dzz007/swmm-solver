@@ -464,6 +464,19 @@ int DLLEXPORT swmm_getNodeTotalInflow(int index, double *value);
 int DLLEXPORT swmm_getStorageStats(int index, SM_StorageStats *storageStats);
 
 /**
+ @brief Return a storage's PSI
+ @return Error code
+*/
+int DLLEXPORT swmm_getStoragePSI(int index, double* psi);
+
+/**
+ @brief Set a storage's PSI
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setStoragePSI(int index, double psi);
+
+/**
  @brief Get outfall statistics.
  @param index The index of a outfall node
  @param[out] outfallStats The outfall Stats struct (see @ref SM_OutfallStats).

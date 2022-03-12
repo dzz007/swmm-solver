@@ -2283,6 +2283,68 @@ int DLLEXPORT swmm_getStorageStats(int index, SM_StorageStats *storageStats)
     return error_getCode(error_index);
 }
 
+
+/**
+ @brief Return a storage's PSI
+ @return Error code
+*/
+int DLLEXPORT swmm_getStoragePSI(int index, double* psi) {
+    int error_index = 0;
+    
+    // Check if Open
+    if (swmm_IsOpenFlag() == FALSE)
+        error_index = ERR_API_INPUTNOTOPEN;
+    
+    // Check if Simulation is Running
+    else if (swmm_IsStartedFlag() == FALSE)
+        error_index = ERR_API_SIM_NRUNNING;
+    
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[NODE])
+        error_index = ERR_API_OBJECT_INDEX;
+    
+    // Check Node Type is storage
+    else if (Node[index].type != STORAGE)
+        error_index = ERR_API_WRONG_TYPE;
+    
+    else if (psi == NULL)
+        error_index = ERR_API_MEMORY;
+    else
+        *psi = Storage[Node[index].subIndex].aConst;
+
+    return error_getCode(error_index);
+}
+
+/**
+ @brief Set a storage's PSI
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setStoragePSI(int index, double psi) {
+    int error_index = 0;
+    
+    // Check if Open
+    if (swmm_IsOpenFlag() == FALSE)
+        error_index = ERR_API_INPUTNOTOPEN;
+    
+    // Check if Simulation is Running
+    else if (swmm_IsStartedFlag() == FALSE)
+        error_index = ERR_API_SIM_NRUNNING;
+    
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[NODE])
+        error_index = ERR_API_OBJECT_INDEX;
+    
+    // Check Node Type is storage
+    else if (Node[index].type != STORAGE)
+        error_index = ERR_API_WRONG_TYPE;
+
+    else
+        Storage[Node[index].subIndex].aConst = psi;
+
+    return error_getCode(error_index);
+}
+
 int DLLEXPORT swmm_getOutfallStats(int index, SM_OutfallStats *outfallStats)
 {
     int error_index = 0;
