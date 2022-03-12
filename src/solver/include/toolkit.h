@@ -463,18 +463,6 @@ int DLLEXPORT swmm_getNodeTotalInflow(int index, double *value);
 */
 int DLLEXPORT swmm_getStorageStats(int index, SM_StorageStats *storageStats);
 
-/**
- @brief Return a storage's PSI
- @return Error code
-*/
-int DLLEXPORT swmm_getStoragePSI(int index, double* psi);
-
-/**
- @brief Set a storage's PSI
- @
- @return Error code
-*/
-int DLLEXPORT swmm_setStoragePSI(int index, double psi);
 
 /**
  @brief Get outfall statistics.
@@ -574,6 +562,45 @@ int DLLEXPORT swmm_setOutfallStage(int index, double stage);
 @return Error code
 */
 int DLLEXPORT swmm_setGagePrecip(int index, double total_precip);
+
+
+/** 
+ * DZZ007 SECTION
+ * 
+ */ 
+
+/**
+ @brief Set a conduit's geometry 1
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setConduitGeom1(int index, double geom1);
+
+/**
+ @brief Set a conduit's geometry 2
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setConduitGeom2(int index, double geom2);
+
+/**
+ @brief Return a storage's PSI
+ @return Error code
+*/
+int DLLEXPORT swmm_getStoragePSI(int index, double* psi);
+
+/**
+ @brief Set a storage's PSI
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setStoragePSI(int index, double psi);
+
+/**
+ * @brief 
+ * dzz007 section end
+ * 
+ */
 
 /**
  @brief Helper function to free memory array allocated in SWMM.

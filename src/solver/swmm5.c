@@ -127,7 +127,7 @@ const double Ucf[10][2] =
       {1036800.0, 26334720.0},         // EVAPRATE (in/day, mm/day --> ft/sec)
       {1.0,       0.3048    },         // LENGTH (ft, m --> ft)
       {2.2956e-5, 0.92903e-5},         // LANDAREA (ac, ha --> ft2)
-      {1.0,       0.02832   },         // VOLUME (ft3, m3 --> ft3)
+      {1.0,       0.028317  },         // VOLUME (ft3, m3 --> ft3)
       {1.0,       1.608     },         // WINDSPEED (mph, km/hr --> mph)
       {1.0,       1.8       },         // TEMPERATURE (deg F, deg C --> deg F)
       {2.203e-6,  1.0e-6    },         // MASS (lb, kg --> mg)

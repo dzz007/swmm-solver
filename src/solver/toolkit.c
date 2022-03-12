@@ -2891,6 +2891,66 @@ int DLLEXPORT swmm_setGagePrecip(int index, double total_precip)
     return error_getCode(error_code_index);
 }
 
+/**
+ @brief Set a conduit's geometry 1
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setConduitGeom1(int index, double geom1) {
+    // ONLY WORKS FOR RECT_OPEN
+
+    int error_code_index = 0;
+    // Check if Open
+    if(swmm_IsOpenFlag() == FALSE)
+    {
+        error_code_index = ERR_API_INPUTNOTOPEN;
+    }
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[LINK])
+    {
+        error_code_index = ERR_API_OBJECT_INDEX;
+    } else {
+        double p[4];
+        p[3] = 0.0;
+        p[2] = 0.0;
+        p[0] = geom1;
+        p[1] = Link[index].xsect.wMax * UCF(LENGTH);    // get original
+        xsect_setParams(&(Link[index].xsect), RECT_OPEN, p, UCF(LENGTH));
+        link_validate(index);
+    }
+    
+    return error_getCode(error_code_index);
+}
+
+/**
+ @brief Set a conduit's geometry 2
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setConduitGeom2(int index, double geom2) {
+        int error_code_index = 0;
+    // Check if Open
+    if(swmm_IsOpenFlag() == FALSE)
+    {
+        error_code_index = ERR_API_INPUTNOTOPEN;
+    }
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[LINK])
+    {
+        error_code_index = ERR_API_OBJECT_INDEX;
+    } else {
+        double p[4];
+        p[3] = 0.0;
+        p[2] = 0.0;
+        p[1] = geom2;
+        p[0] = Link[index].xsect.yFull * UCF(LENGTH);    // get original
+        xsect_setParams(&(Link[index].xsect), RECT_OPEN, p, UCF(LENGTH));
+        link_validate(index);
+    }
+
+    return error_getCode(error_code_index);
+}
+
 //-------------------------------
 // Utility Functions
 //-------------------------------
