@@ -2295,10 +2295,6 @@ int DLLEXPORT swmm_getStoragePSI(int index, double* psi) {
     if (swmm_IsOpenFlag() == FALSE)
         error_index = ERR_API_INPUTNOTOPEN;
     
-    // Check if Simulation is Running
-    else if (swmm_IsStartedFlag() == FALSE)
-        error_index = ERR_API_SIM_NRUNNING;
-    
     // Check if object index is within bounds
     else if (index < 0 || index >= Nobjects[NODE])
         error_index = ERR_API_OBJECT_INDEX;
@@ -2326,10 +2322,6 @@ int DLLEXPORT swmm_setStoragePSI(int index, double psi) {
     // Check if Open
     if (swmm_IsOpenFlag() == FALSE)
         error_index = ERR_API_INPUTNOTOPEN;
-    
-    // Check if Simulation is Running
-    else if (swmm_IsStartedFlag() == FALSE)
-        error_index = ERR_API_SIM_NRUNNING;
     
     // Check if object index is within bounds
     else if (index < 0 || index >= Nobjects[NODE])
