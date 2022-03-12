@@ -2989,6 +2989,7 @@ int DLLEXPORT swmm_setPumpCapacity(int index, double capacity) {
         }
         entry->y = capacity;
     }
+    link_validate(index);   // re-evaluate pump
 
 end:
     return error_getCode(error_code_index);
