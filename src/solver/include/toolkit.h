@@ -584,6 +584,13 @@ int DLLEXPORT swmm_setConduitGeom1(int index, double geom1);
 int DLLEXPORT swmm_setConduitGeom2(int index, double geom2);
 
 /**
+ @brief Set a pump's capacity
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setPumpCapacity(int index, double capacity);
+
+/**
  @brief Return a storage's PSI
  @return Error code
 */

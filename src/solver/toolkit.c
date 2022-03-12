@@ -2928,7 +2928,7 @@ int DLLEXPORT swmm_setConduitGeom1(int index, double geom1) {
  @return Error code
 */
 int DLLEXPORT swmm_setConduitGeom2(int index, double geom2) {
-        int error_code_index = 0;
+    int error_code_index = 0;
     // Check if Open
     if(swmm_IsOpenFlag() == FALSE)
     {
@@ -2948,6 +2948,49 @@ int DLLEXPORT swmm_setConduitGeom2(int index, double geom2) {
         link_validate(index);
     }
 
+    return error_getCode(error_code_index);
+}
+
+/**
+ @brief Set a pump's capacity
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setPumpCapacity(int index, double capacity) {
+    int error_code_index = 0;
+    // Check if Open
+    if(swmm_IsOpenFlag() == FALSE)
+    {
+        error_code_index = ERR_API_INPUTNOTOPEN;
+    }
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[LINK])
+    {
+        error_code_index = ERR_API_OBJECT_INDEX;
+    } 
+    else if (Link[index].type != PUMP)
+        error_code_index = ERR_API_WRONG_TYPE;
+    else 
+    {
+        // Curve[Pump[Link[index].subIndex].pumpCurve]
+        // change first entry to capacity - 0.1, and second entry to capacity
+        TTableEntry *entry = Curve[Pump[Link[index].subIndex].pumpCurve].firstEntry;
+        
+        if (!entry) {
+            error_code_index = ERR_API_MEMORY;
+            goto end;
+        }
+        entry->y = capacity - 0.1;
+        entry = entry->next;
+
+        if (!entry) {
+            error_code_index = ERR_API_MEMORY;
+            goto end;
+        }
+        entry->y = capacity;
+    }
+
+end:
     return error_getCode(error_code_index);
 }
 
