@@ -2283,60 +2283,6 @@ int DLLEXPORT swmm_getStorageStats(int index, SM_StorageStats *storageStats)
     return error_getCode(error_index);
 }
 
-
-/**
- @brief Return a storage's PSI
- @return Error code
-*/
-int DLLEXPORT swmm_getStoragePSI(int index, double* psi) {
-    int error_index = 0;
-    
-    // Check if Open
-    if (swmm_IsOpenFlag() == FALSE)
-        error_index = ERR_API_INPUTNOTOPEN;
-    
-    // Check if object index is within bounds
-    else if (index < 0 || index >= Nobjects[NODE])
-        error_index = ERR_API_OBJECT_INDEX;
-    
-    // Check Node Type is storage
-    else if (Node[index].type != STORAGE)
-        error_index = ERR_API_WRONG_TYPE;
-    
-    else if (psi == NULL)
-        error_index = ERR_API_MEMORY;
-    else
-        *psi = Storage[Node[index].subIndex].aConst;
-
-    return error_getCode(error_index);
-}
-
-/**
- @brief Set a storage's PSI
- @
- @return Error code
-*/
-int DLLEXPORT swmm_setStoragePSI(int index, double psi) {
-    int error_index = 0;
-    
-    // Check if Open
-    if (swmm_IsOpenFlag() == FALSE)
-        error_index = ERR_API_INPUTNOTOPEN;
-    
-    // Check if object index is within bounds
-    else if (index < 0 || index >= Nobjects[NODE])
-        error_index = ERR_API_OBJECT_INDEX;
-    
-    // Check Node Type is storage
-    else if (Node[index].type != STORAGE)
-        error_index = ERR_API_WRONG_TYPE;
-
-    else
-        Storage[Node[index].subIndex].aConst = psi;
-
-    return error_getCode(error_index);
-}
-
 int DLLEXPORT swmm_getOutfallStats(int index, SM_OutfallStats *outfallStats)
 {
     int error_index = 0;
@@ -3018,7 +2964,7 @@ int DLLEXPORT swmm_setPumpCapacity(int index, double capacity) {
         error_code_index = ERR_API_WRONG_TYPE;
     else 
     {
-        // Curve[Pump[Link[index].subIndex].pumpCurve]
+        // NOTE: no unit conversion here since original table_addEntry doesn't convert
         // change first entry to capacity - 0.1, and second entry to capacity
         TTableEntry *entry = Curve[Pump[Link[index].subIndex].pumpCurve].firstEntry;
         
@@ -3062,7 +3008,7 @@ int DLLEXPORT swmm_getPumpCapacity(int index, double* capacity) {
         error_code_index = ERR_API_WRONG_TYPE;
     else 
     {
-        // Curve[Pump[Link[index].subIndex].pumpCurve]
+        // NOTE: no unit conversion here since original table_addEntry doesn't convert
         // change first entry to capacity - 0.1, and second entry to capacity
         TTableEntry *entry = Curve[Pump[Link[index].subIndex].pumpCurve].firstEntry;
         
@@ -3077,6 +3023,89 @@ int DLLEXPORT swmm_getPumpCapacity(int index, double* capacity) {
             goto end;
         }
         *capacity = entry->y;
+    }
+
+end:
+    return error_getCode(error_code_index);
+}
+
+
+/**
+ @brief Return a storage's PSI
+ @return Error code
+*/
+int DLLEXPORT swmm_getStoragePSI(int index, double* psi) {
+    int error_index = 0;
+    
+    // Check if Open
+    if (swmm_IsOpenFlag() == FALSE)
+        error_index = ERR_API_INPUTNOTOPEN;
+    
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[NODE])
+        error_index = ERR_API_OBJECT_INDEX;
+    
+    // Check Node Type is storage
+    else if (Node[index].type != STORAGE)
+        error_index = ERR_API_WRONG_TYPE;
+    
+    else if (psi == NULL)
+        error_index = ERR_API_MEMORY;
+    else
+        *psi = Storage[Node[index].subIndex].aConst;
+
+    return error_getCode(error_index);
+}
+
+/**
+ @brief Set a storage's PSI
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_setStoragePSI(int index, double psi) {
+    int error_index = 0;
+    
+    // Check if Open
+    if (swmm_IsOpenFlag() == FALSE)
+        error_index = ERR_API_INPUTNOTOPEN;
+    
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[NODE])
+        error_index = ERR_API_OBJECT_INDEX;
+    
+    // Check Node Type is storage
+    else if (Node[index].type != STORAGE)
+        error_index = ERR_API_WRONG_TYPE;
+
+    else
+        Storage[Node[index].subIndex].aConst = psi;
+
+    return error_getCode(error_index);
+}
+
+
+/**
+ @brief Get a conduit's length
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_getConduitLength(int index, double* length) {
+    int error_code_index = 0;
+    // Check if Open
+    if(swmm_IsOpenFlag() == FALSE)
+    {
+        error_code_index = ERR_API_INPUTNOTOPEN;
+    }
+    // Check if object index is within bounds
+    else if (index < 0 || index >= Nobjects[LINK])
+    {
+        error_code_index = ERR_API_OBJECT_INDEX;
+    } 
+    else if (Link[index].type != CONDUIT)
+        error_code_index = ERR_API_WRONG_TYPE;
+    else 
+    {
+        *length = Conduit[Link[index].subIndex].length * UCF(LENGTH);
     }
 
 end:

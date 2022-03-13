@@ -626,6 +626,13 @@ int DLLEXPORT swmm_getStoragePSI(int index, double* psi);
 int DLLEXPORT swmm_setStoragePSI(int index, double psi);
 
 /**
+ @brief Get a conduit's length
+ @
+ @return Error code
+*/
+int DLLEXPORT swmm_getConduitLength(int index, double* length);
+
+/**
  * @brief 
  * dzz007 section end
  * 
